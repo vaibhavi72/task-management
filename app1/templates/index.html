@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+
+
+  {% extends 'base.html' %}
+  {% block content %}
+  <div>
+    <div class="container pt-4">
+      <div class="row p-0 mt-4">
+        <div class="col-lg-4 mx-auto shadow p-0">
+          <div class="alert alert-info">
+            <h2>Add New TASK</h2>
+    
+          </div>
+          <div class="p-4">
+            <form action="/add-Task/" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <hr>
+                <input type="submit" value="ADD" class="btn btn-info">
+            </form>
+          </div>
+        </div>
+
+        
+
+        <div class="col">
+          <div class="border">
+
+            {% if tasks|length == 0  %}
+
+              <div class="p-4">
+                <br>
+                <br>
+                <div class="alert alert-info text-center">
+                  <p class="" style="font-size: 30px;">No Tasks</p> 
+                </div>
+                <br>
+                <br>
+              </div>
+
+            {% else %}
+            <div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Sr.no.</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for task in tasks%}
+                  <tr>
+                  
+                    <td>{{forloop.counter}}</td>
+                    <td>{{task.title}}</td>
+                    <td>
+                      {% if task.status == 'C' %}
+                      ✅
+                      {% else %}
+                      ⏲️
+                      {% endif %}
+                    </td>
+                    <td>{{task.priority}}</td>
+                    <td>
+                      <a href="/delete-task/{{task.id}}" title="Delete">🗑️</a>
+                      {% if task.status == 'P' %}
+                      <a href="/change-status/{{task.id}}/C" title="Mark Completed">✅</a>
+                      {% else %}
+                      <a href="/change-status/{{task.id}}/P" title="Mark Pending">⏲️</a>
+                      {% endif %}
+                    </td>
+        
+                  </tr>
+                  {%endfor%}
+            
+                </tbody>
+              </table>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+  
+  
+
+ 
+  
+  
+
+
+    
+  
